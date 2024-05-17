@@ -13,10 +13,8 @@
     <title>Music Player</title>
 </head>
 <body>
-   <div onclick="darkMode()" id="Theme">
-   <label class="theme-toggle" title="Toggle theme">
-  <input type="checkbox" />
-  <span class="theme-toggle-sr">Toggle theme</span>
+   <div id="Theme">
+   <div id="darkmodeBtn" class="theme-toggle" title="Toggle theme">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
@@ -44,7 +42,7 @@
       </g>
     </g>
   </svg>
-</label>
+</div>
    </div>
     <audio id="Song" src="./Musics/Runaway.mp3"></audio>
     <div class="Main">

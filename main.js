@@ -182,34 +182,34 @@ function LoopSong() {
 }
 let isDarkModeOn = false;
 
-function darkMode() {
+const Theme = document.getElementById("Theme"); 
+Theme.addEventListener("click", (event) => {
+  const darkModeBtn = document.getElementById("darkmodeBtn");
     const ionIcons = document.getElementsByTagName("ion-icon");
     const awesomeIcons = document.getElementsByTagName("i");
-    const progressbarElmt = document.getElementById("progress-bar"); 
     if (isDarkModeOn) {
-        MusicCardElmt.style.color = 'white';
-        progressbarElmt.style.backgroundColor = 'rgb(255, 255, 255, 0.3)';
-        progressbarElmt.style.boxShadow = 'inset 0 0 1px black';
-        for (let i = 0; i < ionIcons.length; i++)
-            {
-                ionIcons[i].style.color = 'white';
-                for(let a = 0; a < awesomeIcons.length; a++)
-                    {
-                        awesomeIcons[a].style.color = 'white';
-                    }
-            }
+      
+    darkModeBtn.classList.remove("theme-toggle--toggled");
+      MusicCardElmt.style.color = "white";
+      rangeBarElmt.style.backgroundColor = "rgb(255, 255, 255, 0.3)";
+      rangeBarElmt.style.boxShadow = "inset 0 0 1px black";
+      for (let i = 0; i < ionIcons.length; i++) {
+        ionIcons[i].style.color = "white";
+      }
+      for (let a = 0; a < awesomeIcons.length; a++) {
+        awesomeIcons[a].style.color = "white";
+      }
     } else {
-        MusicCardElmt.style.color = 'black';
-        progressbarElmt.style.backgroundColor = 'rgb(0, 0, 0, 0.3)';
-        progressbarElmt.style.boxShadow = 'inset 0 0 5px white';
-        for (let i = 0; i < ionIcons.length; i++)
-        {
-            ionIcons[i].style.color = 'black';
-            for(let a = 0; a < awesomeIcons.length; a++)
-                {
-                    awesomeIcons[a].style.color = 'black';
-                }
-        }
+      darkModeBtn.classList.add("theme-toggle--toggled");
+      MusicCardElmt.style.color = "black";
+      rangeBarElmt.style.backgroundColor = "rgb(0, 0, 0, 0.3)";
+      rangeBarElmt.style.boxShadow = "inset 0 0 5px white";
+      for (let i = 0; i < ionIcons.length; i++) {
+        ionIcons[i].style.color = "black";
+      }
+      for (let a = 0; a < awesomeIcons.length; a++) {
+        awesomeIcons[a].style.color = "black";
+      }
     }
     isDarkModeOn = !isDarkModeOn;
-}
+});
