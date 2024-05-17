@@ -9,43 +9,50 @@ const MusicList = [
         name: "Mine",
         source: "Musics/Mine.mp3",
         artistName: "Bazzi",
-        imgSource: "./MusicCovers/Mine.png"
+        imgSource: "./MusicCovers/Mine.png",
+        Duration: '02:14'
     },
     {
         name: "Beautiful",
         source: "Musics/Beautiful.mp3",
         artistName: "Bazzi",
-        imgSource: "./MusicCovers/Beautiful.jpeg"
+        imgSource: "./MusicCovers/Beautiful.jpeg",
+        Duration: '03:00'
     },
     {
         name: "Hurts So Good",
         source: "./Musics/Hurts So Good.mp3",
         artistName: "Alyssa",
-        imgSource: "./MusicCovers/Hurts So Good.jpg"
+        imgSource: "./MusicCovers/Hurts So Good.jpg",
+        Duration: '03:28'
     },
     {
         name: "Lost On You",
         source: "./Musics/Lost On You.mp3",
         artistName: "LP",
-        imgSource: "./MusicCovers/Lost On You.jpg"
+        imgSource: "./MusicCovers/Lost On You.jpg",
+        Duration: '04:30'
     },
     {
         name: "Let The World Burn",
         source: "./Musics/Let The World Burn.mp3",
         artistName: "Chris Grey",
-        imgSource: "./MusicCovers/LetTheWorldBurn.jpg"
+        imgSource: "./MusicCovers/LetTheWorldBurn.jpg",
+        Duration: '02:43'
     },
     {
         name: "Outrunning Karma",
         source: "./Musics/Outrunning Karma.mp3",
         artistName: "Alec Benjamin",
-        imgSource: "./MusicCovers/Outrunning Karma.jpg"
+        imgSource: './MusicCovers/Outrunning Karma.jpg',
+        Duration: '03:08'
     },
     {
         name: "Runaway",
         source: "./Musics/Runaway.mp3",
         artistName: "Aurora",
         imgSource: "./MusicCovers/Runaway.png",
+        Duration: '04:09'
     }
 ];
 const MainContainer = document.getElementsByClassName("Main")[0];
@@ -57,7 +64,7 @@ let index = 6;
 let isShuffled = false;
 let isLooping = false;
 let colorAccent;
-const icon = document.getElementById("icon"); 
+const icon = document.getElementById("icon");
 const sideBar = document.getElementById("sideBar");
 const sideBarBtn = document.getElementById("sideBarBtn");
 const DarkModeCode = `
@@ -89,6 +96,34 @@ const DarkModeCode = `
       </g>
     </g>
   </svg> `;
+function createSongs() {
+    for (let i = 1; i < MusicList.length; i++) {
+        const MusicListELmt = document.getElementById('MusicList');
+        MusicListELmt.innerHTML += `
+        <div class="song">
+                <div style="background-image: url(${MusicList[i].imgSource});" class="songImage"></div>
+                <div class="songInfo">
+                    <div class="Title">${MusicList[i].name}</div>
+                    <div class="artistName">${MusicList[i].artistName}</div>
+                </div>
+                <div class="songDuration">
+                    <h4>${MusicList[i].Duration}</h4>
+                </div>
+            </div>
+        `;
+    }
+    const Songs = document.getElementsByClassName("song");
+    const songImages = document.getElementsByClassName("songImage");
+    for (let i = 0; i < songImages.length; i++) {
+        songImages[i].style.backgroundImage = `url('${MusicList[i].imgSource}')`;
+        Songs[i].addEventListener("click", () => {
+            index = i;
+            PlaySong();
+        });
+    }
+}
+
+createSongs();
 function PlaySong() {
     colorjs.prominent(`${MusicList[index].imgSource}`, { amount: 1 }).then(color => {
         document.getElementById("seekBar").style.backgroundColor = `rgb(${color.toString()})`;
@@ -100,7 +135,12 @@ function PlaySong() {
             document.getElementById("Shuffle").style.backgroundColor = colorAccent;
         }
     });
-    Theme.innerHTML = DarkModeCode;
+    try {
+        Theme.innerHTML = DarkModeCode;
+    }
+    catch {
+
+    }
     songElmt.play();
     playElmt.style.display = "none";
     pauseElmt.style.display = "grid";
