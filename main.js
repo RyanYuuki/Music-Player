@@ -183,16 +183,10 @@ function LoopSong() {
 let isDarkModeOn = false;
 
 function darkMode() {
-    const darkModeBar = document.getElementById("darkModeBar");
-    const darkModeElmt = document.getElementById("darkMode");
     const ionIcons = document.getElementsByTagName("ion-icon");
     const awesomeIcons = document.getElementsByTagName("i");
     const progressbarElmt = document.getElementById("progress-bar"); 
     if (isDarkModeOn) {
-        darkModeBar.style.backgroundColor = 'white';
-        darkModeElmt.style.backgroundColor = 'black';
-        darkModeElmt.style.left = '2px';
-        darkModeElmt.style.right = '';
         MusicCardElmt.style.color = 'white';
         progressbarElmt.style.backgroundColor = 'rgb(255, 255, 255, 0.3)';
         progressbarElmt.style.boxShadow = 'inset 0 0 1px black';
@@ -205,10 +199,6 @@ function darkMode() {
                     }
             }
     } else {
-        darkModeElmt.style.right = '2px';
-        darkModeElmt.style.left = '';
-        darkModeElmt.style.backgroundColor = 'white';
-        darkModeBar.style.backgroundColor = 'black';
         MusicCardElmt.style.color = 'black';
         progressbarElmt.style.backgroundColor = 'rgb(0, 0, 0, 0.3)';
         progressbarElmt.style.boxShadow = 'inset 0 0 5px white';
