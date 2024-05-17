@@ -188,7 +188,7 @@ Theme.addEventListener("click", (event) => {
     const ionIcons = document.getElementsByTagName("ion-icon");
     const awesomeIcons = document.getElementsByTagName("i");
     if (isDarkModeOn) {
-      
+    Theme.style.color = "white";
     darkModeBtn.classList.remove("theme-toggle--toggled");
       MusicCardElmt.style.color = "white";
       rangeBarElmt.style.backgroundColor = "rgb(255, 255, 255, 0.3)";
@@ -210,6 +210,7 @@ Theme.addEventListener("click", (event) => {
       for (let a = 0; a < awesomeIcons.length; a++) {
         awesomeIcons[a].style.color = "black";
       }
+      Theme.style.color = "black";
     }
     isDarkModeOn = !isDarkModeOn;
 });
