@@ -62,6 +62,7 @@ body {
 }
 
 .MusicCard .Image {
+    background-image: url(./MusicCovers/Runaway.png);
     position: absolute;
     background-size: cover;
     height: 80%;
@@ -159,4 +160,83 @@ body {
   background-color: rgb(255, 255, 255, 0.1);
   color: white;
   padding: 5px;
+}
+
+.sideBarBtn {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: 10%;
+    left: 2%;
+    padding: 10px 20px;
+    border: 1px solid;
+    border-radius: 50px;
+    font-size: 25px;
+}
+
+.sideBar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 80%;
+    width: 30%;
+    left: 10%;
+    position: absolute;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.sideBar--close {
+    transform: translateX(-150%);
+}
+
+.sideBar--open {
+    transform: translateX(-27%);
+}
+
+.sideBar .song {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    height: 8%;
+    width: 90%;
+    padding: 10px 20px;
+    border: 1px solid;
+    border-radius: 15px;
+}
+
+.sideBar .Image {
+    height: 100%;
+    width: 15%;
+    background-image: url(./MusicCovers/Runaway.png);
+    background-size: cover;
+    border: 1px solid;
+    border-radius: 20px;
+}
+
+.sideBar .songInfo {
+    width: 60%;
+    border-radius: 15px;
+    padding: 0 30px;
+
+    .Title {
+        font-weight: 700;
+    }
+    .artistName {
+        font-weight: 300;
+    }
+}
+
+.songDuration {
+    position: relative;
+    height: 100%;
+    width: 20%;
+}
+
+h4 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }

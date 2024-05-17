@@ -48,6 +48,7 @@ const MusicList = [
         imgSource: "./MusicCovers/Runaway.png",
     }
 ];
+const MainContainer = document.getElementsByClassName("Main")[0];
 const musicCoverElmt = document.getElementById("Image");
 const rangeElmt = document.getElementById("seekBar");
 const rangeBarElmt = document.getElementById("progress-bar");
@@ -56,6 +57,38 @@ let index = 6;
 let isShuffled = false;
 let isLooping = false;
 let colorAccent;
+const icon = document.getElementById("icon"); 
+const sideBar = document.getElementById("sideBar");
+const sideBarBtn = document.getElementById("sideBarBtn");
+const DarkModeCode = `
+<div id="darkmodeBtn" class="theme-toggle" title="Toggle theme">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    width="1em"
+    height="1em"
+    fill="currentColor"
+    stroke-linecap="round"
+    class="theme-toggle__classic"
+    viewBox="0 0 32 32"
+  >
+    <clipPath id="theme-toggle__classic__cutout">
+      <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z" />
+    </clipPath>
+    <g clip-path="url(#theme-toggle__classic__cutout)">
+      <circle cx="16" cy="16" r="9.34" />
+      <g stroke="currentColor" stroke-width="1.5">
+        <path d="M16 5.5v-4" />
+        <path d="M16 30.5v-4" />
+        <path d="M1.5 16h4" />
+        <path d="M26.5 16h4" />
+        <path d="m23.4 8.6 2.8-2.8" />
+        <path d="m5.7 26.3 2.9-2.9" />
+        <path d="m5.8 5.8 2.8 2.8" />
+        <path d="m23.4 23.4 2.9 2.9" />
+      </g>
+    </g>
+  </svg> `;
 function PlaySong() {
     colorjs.prominent(`${MusicList[index].imgSource}`, { amount: 1 }).then(color => {
         document.getElementById("seekBar").style.backgroundColor = `rgb(${color.toString()})`;
@@ -67,6 +100,7 @@ function PlaySong() {
             document.getElementById("Shuffle").style.backgroundColor = colorAccent;
         }
     });
+    Theme.innerHTML = DarkModeCode;
     songElmt.play();
     playElmt.style.display = "none";
     pauseElmt.style.display = "grid";
@@ -166,10 +200,10 @@ function ShuffleSong() {
         document.getElementById("Shuffle").style.backgroundColor = colorAccent;
         document.getElementById("Shuffle").style.color = "white";
     }
-    isShuffled =!isShuffled;
+    isShuffled = !isShuffled;
 }
 function LoopSong() {
-    
+
     if (isLooping) {
         document.getElementById("Loop").style.background = `rgba(255, 255, 255, 0.1)`;
         document.getElementById("Loop").style.color = "white";
@@ -178,39 +212,58 @@ function LoopSong() {
         document.getElementById("Loop").style.backgroundColor = colorAccent;
         document.getElementById("Loop").style.color = "white";
     }
-    isLooping =!isLooping;
+    isLooping = !isLooping;
 }
 let isDarkModeOn = false;
 
-const Theme = document.getElementById("Theme"); 
+const Theme = document.getElementById("Theme");
 Theme.addEventListener("click", (event) => {
-  const darkModeBtn = document.getElementById("darkmodeBtn");
+    const darkModeBtn = document.getElementById("darkmodeBtn");
     const ionIcons = document.getElementsByTagName("ion-icon");
     const awesomeIcons = document.getElementsByTagName("i");
     if (isDarkModeOn) {
-    Theme.style.color = "white";
-    darkModeBtn.classList.remove("theme-toggle--toggled");
-      MusicCardElmt.style.color = "white";
-      rangeBarElmt.style.backgroundColor = "rgb(255, 255, 255, 0.3)";
-      rangeBarElmt.style.boxShadow = "inset 0 0 1px black";
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = "white";
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = "white";
-      }
+        Theme.style.color = "white";
+        darkModeBtn.classList.remove("theme-toggle--toggled");
+        MusicCardElmt.style.color = "white";
+        rangeBarElmt.style.backgroundColor = "rgb(255, 255, 255, 0.3)";
+        rangeBarElmt.style.boxShadow = "inset 0 0 1px black";
+        for (let i = 0; i < ionIcons.length; i++) {
+            ionIcons[i].style.color = "white";
+        }
+        for (let a = 0; a < awesomeIcons.length; a++) {
+            awesomeIcons[a].style.color = "white";
+        }
     } else {
-      darkModeBtn.classList.add("theme-toggle--toggled");
-      MusicCardElmt.style.color = "black";
-      rangeBarElmt.style.backgroundColor = "rgb(0, 0, 0, 0.3)";
-      rangeBarElmt.style.boxShadow = "inset 0 0 5px white";
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = "black";
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = "black";
-      }
-      Theme.style.color = "black";
+        darkModeBtn.classList.add("theme-toggle--toggled");
+        MusicCardElmt.style.color = "black";
+        rangeBarElmt.style.backgroundColor = "rgb(0, 0, 0, 0.3)";
+        rangeBarElmt.style.boxShadow = "inset 0 0 5px white";
+        for (let i = 0; i < ionIcons.length; i++) {
+            ionIcons[i].style.color = "black";
+        }
+        for (let a = 0; a < awesomeIcons.length; a++) {
+            awesomeIcons[a].style.color = "black";
+        }
+        Theme.style.color = "black";
     }
     isDarkModeOn = !isDarkModeOn;
+});
+
+let isSideBarOpen = false;
+sideBarBtn.addEventListener("click", () => {
+    if (isSideBarOpen) {
+        sideBar.classList.remove("sideBar--open");
+        sideBar.classList.add("sideBar--close");
+        MainContainer.style.transform = "translateX(0%)";
+        sideBarBtn.style.transform = "translateX(0%)";
+        icon.style.transform = "rotate(0deg)";
+    }
+    else {
+        sideBar.classList.add("sideBar--open");
+        sideBar.classList.remove("sideBar--close");
+        MainContainer.style.transform = "translateX(35%)";
+        sideBarBtn.style.transform = "translateX(470px)";
+        icon.style.transform = "rotate(180deg)";
+    }
+    isSideBarOpen = !isSideBarOpen;
 });
