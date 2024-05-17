@@ -1,9 +1,8 @@
-const playElmt = document.getElementById("Play");
-const pauseElmt = document.getElementById("Pause");
-const NextSongElmt = document.getElementById("NextSong");
-const PrevSongElmt = document.getElementById("PrevSong");
-const durationElmt = document.getElementsByClassName("duration")[0];
-const MusicCardElmt = document.getElementsByClassName("MusicCard")[0];
+// Local Variable & Arrays
+let index = 6;
+let isShuffled = false;
+let isLooping = false;
+let colorAccent;
 const MusicList = [
     {
         name: "Mine",
@@ -55,18 +54,6 @@ const MusicList = [
         Duration: '04:09'
     }
 ];
-const MainContainer = document.getElementsByClassName("Main")[0];
-const musicCoverElmt = document.getElementById("Image");
-const rangeElmt = document.getElementById("seekBar");
-const rangeBarElmt = document.getElementById("progress-bar");
-const songElmt = document.getElementById("Song");
-let index = 6;
-let isShuffled = false;
-let isLooping = false;
-let colorAccent;
-const icon = document.getElementById("icon");
-const sideBar = document.getElementById("sideBar");
-const sideBarBtn = document.getElementById("sideBarBtn");
 const DarkModeCode = `
 <div id="darkmodeBtn" class="theme-toggle" title="Toggle theme">
   <svg
@@ -96,12 +83,34 @@ const DarkModeCode = `
       </g>
     </g>
   </svg> `;
+// End
+
+// Elmt Declarations 
+const MusicListELmt = document.getElementById('MusicList');
+const Songs = document.getElementsByClassName("song");
+const songImages = document.getElementsByClassName("songImage");
+const playElmt = document.getElementById("Play");
+const pauseElmt = document.getElementById("Pause");
+const NextSongElmt = document.getElementById("NextSong");
+const PrevSongElmt = document.getElementById("PrevSong");
+const durationElmt = document.getElementsByClassName("duration")[0];
+const MusicCardElmt = document.getElementsByClassName("MusicCard")[0];
+const MainContainer = document.getElementsByClassName("Main")[0];
+const musicCoverElmt = document.getElementById("Image");
+const rangeElmt = document.getElementById("seekBar");
+const rangeBarElmt = document.getElementById("progress-bar");
+const songElmt = document.getElementById("Song");
+const icon = document.getElementById("icon");
+const sideBar = document.getElementById("sideBar");
+const sideBarBtn = document.getElementById("sideBarBtn");
+// End
+
+// Functions
 function createSongs() {
     for (let i = 1; i < MusicList.length; i++) {
-        const MusicListELmt = document.getElementById('MusicList');
         MusicListELmt.innerHTML += `
         <div class="song">
-                <div style="background-image: url(${MusicList[i].imgSource});" class="songImage"></div>
+                <div style="background-image: url('${MusicList[i].imgSource}');" class="songImage"></div>
                 <div class="songInfo">
                     <div class="Title">${MusicList[i].name}</div>
                     <div class="artistName">${MusicList[i].artistName}</div>
@@ -112,10 +121,7 @@ function createSongs() {
             </div>
         `;
     }
-    const Songs = document.getElementsByClassName("song");
-    const songImages = document.getElementsByClassName("songImage");
     for (let i = 0; i < songImages.length; i++) {
-        songImages[i].style.backgroundImage = `url('${MusicList[i].imgSource}')`;
         Songs[i].addEventListener("click", () => {
             index = i;
             PlaySong();
@@ -124,6 +130,8 @@ function createSongs() {
 }
 
 createSongs();
+
+
 function PlaySong() {
     colorjs.prominent(`${MusicList[index].imgSource}`, { amount: 1 }).then(color => {
         document.getElementById("seekBar").style.backgroundColor = `rgb(${color.toString()})`;
@@ -135,12 +143,8 @@ function PlaySong() {
             document.getElementById("Shuffle").style.backgroundColor = colorAccent;
         }
     });
-    try {
-        Theme.innerHTML = DarkModeCode;
-    }
-    catch {
-
-    }
+    Theme.innerHTML = DarkModeCode;
+    songElmt.src = MusicList[index].source;
     songElmt.play();
     playElmt.style.display = "none";
     pauseElmt.style.display = "grid";
@@ -160,8 +164,7 @@ function PlaySong() {
         let percentage = (songElmt.currentTime / songElmt.duration) * 100;
         let durationMinutes = Math.floor(songElmt.duration / 60);
         let durationSeconds = Math.floor(songElmt.duration % 60);
-        let formattedDuration = `${(durationMinutes).toString().padStart(1, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
-        formattedDuration = formattedDuration.slice(0, 4);
+        let formattedDuration = `${(durationMinutes).toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
         rangeElmt.style.width = `${percentage}%`;
         rangeBarElmt.addEventListener('click', (e) => {
             let derivedDuration = (e.layerX * 100) / 420;
@@ -172,7 +175,7 @@ function PlaySong() {
         });
         durationElmt.innerHTML = `
         <div class="currDuration">${(Minute.toString()).padStart(2, "0")}:${(Second.toString()).padStart(2, "0")}</div>
-        <div class="fullDuration">0${formattedDuration}</div>`
+        <div class="fullDuration">${formattedDuration}</div>`
     }, 1000);
     songElmt.addEventListener('ended', () => {
         if (isLooping) {
@@ -259,7 +262,7 @@ let isDarkModeOn = false;
 const Theme = document.getElementById("Theme");
 Theme.addEventListener("click", (event) => {
     const darkModeBtn = document.getElementById("darkmodeBtn");
-    const ionIcons = document.getElementsByTagName("ion-icon");
+    const ionIcons = document.getElementsByTagName("ion-icon"); 
     const awesomeIcons = document.getElementsByTagName("i");
     if (isDarkModeOn) {
         Theme.style.color = "white";

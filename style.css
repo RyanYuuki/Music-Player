@@ -1,22 +1,22 @@
-@media screen and (max-width: 800px)
-{
+@media screen and (max-width: 800px) {
   .Main {
-    transform: scale(0.7);
+    transform: scale(0.6);
   }
 }
 
-@media screen and (max-width: 1300px)
-{
+@media screen and (max-width: 1300px) {
   .Main {
     transform: scale(0.8);
   }
 }
+
 
 * {
     margin: 0;
     padding: 0;
     font-family: 'Poppins';
     transition: all 0.5s ease-in-out;
+    color: white;
 }
 
 body {
@@ -251,4 +251,13 @@ h4 {
     position: absolute;
     right: 0;
     bottom: 0;
+}
+
+@keyframes rotate {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
 }
