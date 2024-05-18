@@ -4,6 +4,7 @@ let isShuffled = false;
 let isLooping = false;
 let colorAccent;
 let prevNum;
+let currentTheme;
 const MusicList = [
   { name: "Mine", source: "Musics/Mine.mp3", artistName: "Bazzi", imgSource: "./MusicCovers/Mine.png", Duration: '02:14' },
   { name: "Beautiful", source: "Musics/Beautiful.mp3", artistName: "Bazzi", imgSource: "./MusicCovers/Beautiful.jpeg", Duration: '03:00' },
@@ -16,13 +17,15 @@ const MusicList = [
 const TransparentThemes = [
   { Name: "Light", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
   { Name: "Dark", Accent: "rgb(255, 255, 255, 0.1)", textColor: "black" },
+  { themeName : 'Transparent'}
 ];
 const MaterialThemes = [
   { Name: "Light", Accent: "white", textColor: "black" },
   { Name: "Dark", Accent: "#202020", textColor: "white" },
+  { themeName : 'Material'}
 ];
 const DarkModeCode = `
-<div id="darkmodeBtn" class="theme-toggle" title="Toggle theme">
+<div id="switch-button" class="theme-toggle" title="Toggle theme">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
@@ -50,7 +53,6 @@ const DarkModeCode = `
       </g>
     </g>
   </svg> `;
-let isTransparent = true;
 // End
 
 // Elmt Declarations 
@@ -236,52 +238,26 @@ function LoopSong() {
   }
   isLooping = !isLooping;
 }
+let isDarkButtonPressed = false;
 let isDarkModeOn = false;
 const Theme = document.getElementById("mode-switcher");
-Theme.addEventListener("click", (event) => {
-  const darkModeBtn = document.getElementById("darkmodeBtn");
-  if (isTransparent) {
-    if (isDarkModeOn) {
-      Theme.style.color = "white";
-      sideBar.style.backgroundColor = "rgb(255, 255, 255, 0.2)";
-      darkModeBtn.classList.remove("theme-toggle--toggled");
-      MainContainer.style.backgroundColor = "rgb(0, 0, 0, 0.1)";
-      MusicCardElmt.style.color = "white";
-      rangeBarElmt.style.backgroundColor = "rgb(255, 255, 255, 0.3)";
-      rangeBarElmt.style.boxShadow = "inset 0 0 1px black";
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = "white";
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = "white";
-      }
-    } else {
-      sideBar.style.backgroundColor = "rgb(0,0,0, 0.4)";
-      darkModeBtn.classList.add("theme-toggle--toggled");
-      MainContainer.style.backgroundColor = "rgb(255, 255, 255, 0.1)";
-      MusicCardElmt.style.color = "black";
-      rangeBarElmt.style.backgroundColor = "rgb(0, 0, 0, 0.3)";
-      rangeBarElmt.style.boxShadow = "inset 0 0 5px white";
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = "black";
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = "black";
-      }
-      Theme.style.color = "black";
-    }
+Theme.addEventListener("click", () => {
+  const switchButton = document.getElementById("switch-button"); 
+  if (isDarkButtonPressed) {
+    switchButton.classList.remove("theme-toggle--toggled");
+    currentTheme == "Transparent" ? changeThemes(TransparentThemes, "Light") : changeThemes(MaterialThemes,  "Light");
   }
   else {
-
+    switchButton.classList.add("theme-toggle--toggled");
+    currentTheme == "Transparent" ? changeThemes(TransparentThemes, "Dark") : changeThemes(MaterialThemes,  "Dark");
   }
-  isDarkModeOn = !isDarkModeOn;
+  isDarkButtonPressed = !isDarkButtonPressed;
 });
 
 let isSideBarOpen = false;
 sideBarBtn.addEventListener("click", () => {
   if (isSideBarOpen) {
-    sideBar.classList.remove("sidebar--open");
-    sideBar.classList.add("sidebar--close");
+    sideBar.classList.replace("sidebar--open", "sidebar--close");
     MainContainer.style.transform = "translateX(0%)";
     icon.style.transform = "rotate(0deg)";
     sideBar.style.scale = "1";
@@ -289,21 +265,19 @@ sideBarBtn.addEventListener("click", () => {
     MainContainer.style.display = "flex";
   }
   else {
-    sideBar.classList.add("sidebar--open");
-    sideBar.classList.remove("sidebar--close");
+    sideBar.classList.replace("sidebar--close", "sidebar--open");
     MainContainer.style.transform = "translateX(35%)";
     icon.style.transform = "rotate(180deg)";
     if (window.screen.width < 500) {
       sideBar.style.scale = "0.8";
       sideBar.style.width = "105%";
-      MainContainer.style.display = "none";
+      MainContainer.style.transform =  "translateX(200%)";
     }
   }
   isSideBarOpen = !isSideBarOpen;
 });
 function evokeTheme() {
-  sideBar.classList.add("sidebar--close");
-  sideBar.classList.remove("sidebar--open");
+  sideBar.classList.replace("sidebar--open", "sidebar--close");
   themeBar.style.display = "flex";
   icon.style.transform = "rotate(0deg)";
   for(let i = 0; i < ThemesOptions.length; i++)
@@ -363,4 +337,5 @@ function changeThemes(Mode, theme) {
         awesomeIcons[a].style.color = Mode[x].textColor;
       }
     }
+    Mode[2].themeName == "Transparent" ? currentTheme = "Transparent" : currentTheme = "Material";
 }
