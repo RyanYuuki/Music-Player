@@ -145,11 +145,10 @@ function PlaySong() {
     let formattedDuration = `${(durationMinutes).toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
     rangeElmt.style.width = `${percentage}%`;
     rangeBarElmt.addEventListener('click', (e) => {
+      console.log(e);
       let derivedDuration = (e.layerX * 100) / 420;
       rangeElmt.style.width = `${derivedDuration}%`;
-      let value = rangeElmt.style.width;
-      value = value.slice(0, -1);
-      songElmt.currentTime = (value / 100) * songElmt.duration;
+      songElmt.currentTime = (derivedDuration / 100) * songElmt.duration;
     });
     durationElmt.innerHTML = `
         <div class="currDuration">${(Minute.toString()).padStart(2, "0")}:${(Second.toString()).padStart(2, "0")}</div>
@@ -227,7 +226,6 @@ function ShuffleSong() {
   isShuffled = !isShuffled;
 }
 function LoopSong() {
-
   if (isLooping) {
     document.getElementById("Loop").style.background = `rgba(255, 255, 255, 0.1)`;
     document.getElementById("Loop").style.color = "white";
