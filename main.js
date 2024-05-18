@@ -3,6 +3,7 @@ let index = 6;
 let isShuffled = false;
 let isLooping = false;
 let colorAccent;
+let prevNum;
 const MusicList = [
     {
         name: "Mine",
@@ -186,13 +187,16 @@ function PauseSong() {
 }
 
 function NextSong() {
-    index++;
     if (isShuffled) {
-        index = Math.floor(Math.random() * MusicList.length) + 1;
+      do{
+        index = Math.floor(Math.random() * MusicList.length);
         songElmt.src = MusicList[index].source;
+      }while(index == prevNum)
+        prevNum = index;
         PlaySong();
     }
     else {
+        index++;
         if (index > MusicList.length - 1) {
             index = 0;
             songElmt.src = MusicList[index].source;
