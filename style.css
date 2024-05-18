@@ -5,7 +5,6 @@
   }
 }
 
-
 * {
     margin: 0;
     padding: 0;
@@ -140,7 +139,7 @@ body {
     transition: all 0.1s ease-in-out;
 }
 
-#Theme {
+#mode-switcher {
   position: absolute;
   right: 3%;
   top: 1%;
@@ -156,20 +155,21 @@ body {
   padding: 5px;
 }
 
-.sideBarBtn {
+.sidebar-button {
     display: grid;
     place-items: center;
     position: absolute;
     top: 10%;
-    left: 2%;
+    left: 5%;
     height: 40px;
     width: 40px;
     border: 1px solid;
     border-radius: 50px;
     font-size: 25px;
+    z-index: 99;
 }
 
-.sideBar {
+.sidebar {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -183,19 +183,15 @@ body {
     color: white;
 }
 
-.sideBar--close {
+.sidebar--close {
     transform: translateX(-150%);
 }
 
-.sideBar--open {
+.sidebar--open {
     transform: translateX(-20%);
 }
 
-.sideBar--open-mobile {
-  width: 80%;
-}
-
-.sideBar .song {
+.sidebar .song {
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -208,7 +204,7 @@ body {
     background-color: rgb(255, 255, 255, 0.1);
 }
 
-.sideBar .songImage {
+.sidebar .songImage {
     height: 100%;
     width: 15%;
     background-size: cover;
@@ -216,7 +212,7 @@ body {
     border-radius: 50px;
 }
 
-.sideBar .songInfo {
+.sidebar .songInfo {
     width: 80%;
     border-radius: 15px;
     padding: 0 30px;
@@ -261,7 +257,7 @@ h4 {
   }
 }
 
-.themePopup {
+.theme-popup {
   position: absolute;
   display: none;
   flex-direction: column;
@@ -301,12 +297,14 @@ h4 {
   gap: 20px
 }
 
-.themeBtn {
+.theme-button {
+  display: grid;
+  place-items: center;
   position: absolute;
-  top: 1%;
-  left: 2%;
-  width: 40px;
-  height: 40px;
+  top: 2%;
+  right: 6%;
+  padding: 7px;
+  font-size: 30px;
   border: 1px solid;
   border-radius: 50px;
 }
