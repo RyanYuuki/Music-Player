@@ -261,11 +261,11 @@ let isDarkModeOn = false;
 
 const Theme = document.getElementById("Theme");
 Theme.addEventListener("click", (event) => {
-    const darkModeBtn = document.getElementById("darkmodeBtn");
-    const ionIcons = document.getElementsByTagName("ion-icon"); 
-    const awesomeIcons = document.getElementsByTagName("i");
+  const darkModeBtn = document.getElementById("darkmodeBtn");
+const ionIcons = document.getElementsByTagName("ion-icon"); 
+const awesomeIcons = document.getElementsByTagName("i");
     if (isDarkModeOn) {
-        Theme.style.color = "white";
+      sideBar.style.backgroundColor = "rgb(255, 255, 255, 0.2)";
         darkModeBtn.classList.remove("theme-toggle--toggled");
         MusicCardElmt.style.color = "white";
         rangeBarElmt.style.backgroundColor = "rgb(255, 255, 255, 0.3)";
@@ -277,6 +277,7 @@ Theme.addEventListener("click", (event) => {
             awesomeIcons[a].style.color = "white";
         }
     } else {
+      sideBar.style.backgroundColor = "rgb(0,0,0, 0.4)";
         darkModeBtn.classList.add("theme-toggle--toggled");
         MusicCardElmt.style.color = "black";
         rangeBarElmt.style.backgroundColor = "rgb(0, 0, 0, 0.3)";
@@ -297,16 +298,31 @@ sideBarBtn.addEventListener("click", () => {
     if (isSideBarOpen) {
         sideBar.classList.remove("sideBar--open");
         sideBar.classList.add("sideBar--close");
-        MainContainer.style.transform = "translateX(0%)";
-        sideBarBtn.style.transform = "translateX(0%)";
+        MainContainer.style.left = '';
         icon.style.transform = "rotate(0deg)";
     }
     else {
         sideBar.classList.add("sideBar--open");
         sideBar.classList.remove("sideBar--close");
-        MainContainer.style.transform = "translateX(35%)";
-        sideBarBtn.style.transform = "translateX(470px)";
+        MainContainer.style.left = "35%";
         icon.style.transform = "rotate(180deg)";
     }
     isSideBarOpen = !isSideBarOpen;
+});
+
+sideBarOn = false;
+sideBarBtn.addEventListener("click", () => {
+  if(sideBarOn) {
+    sideBar.style.scale = "1";
+    sideBar.style.width = '30%';
+    MainContainer.style.display = "flex";
+  }
+  else {
+  if(window.screen.width < 500) {
+    sideBar.style.scale = "0.8";
+    sideBar.style.width = "105%";
+    MainContainer.style.display = "none";
+  }
+  }
+  sideBarOn = !sideBarOn;
 });

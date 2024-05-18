@@ -1,12 +1,7 @@
-@media screen and (max-width: 800px) {
+@media only screen and (max-width: 500px)
+{
   .Main {
-    transform: scale(0.6);
-  }
-}
-
-@media screen and (max-width: 1300px) {
-  .Main {
-    transform: scale(0.8);
+    transform: scale(0.7);
   }
 }
 
@@ -150,12 +145,12 @@ body {
   position: absolute;
   right: 3%;
   top: 1%;
-  font-size: 50px;
+  font-size: 40px;
   border: 1px solid transparent;
   box-shadow:inset 0 0 5px rgb(0, 0, 0, 0.5);
   border-radius: 50px;
-  height: 60px;
-  width: 60px;
+  height: 50px;
+  width: 50px;
   text-align: center;
   background-color: rgb(255, 255, 255, 0.1);
   color: white;
@@ -179,13 +174,12 @@ body {
     flex-direction: column;
     gap: 10px;
     height: 80%;
-    width: 30%;
     left: 10%;
     position: absolute;
     border: 1px solid;
     border-radius: 10px;
     padding: 10px 20px;
-    background-color: rgb(0, 0, 0, 0.4);
+    background-color: rgb(255, 255, 255, 0.1);
     color: white;
 }
 
@@ -194,7 +188,11 @@ body {
 }
 
 .sideBar--open {
-    transform: translateX(-27%);
+    transform: translateX(-20%);
+}
+
+.sideBar--open-mobile {
+  width: 80%;
 }
 
 .sideBar .song {
@@ -245,6 +243,7 @@ body {
     height: 100%;
     width: 100%;
     overflow-y: scroll;
+    overflow-x: visible;
 }
 
 h4 {
