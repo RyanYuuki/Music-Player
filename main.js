@@ -83,6 +83,7 @@ const DarkModeCode = `
       </g>
     </g>
   </svg> `;
+  let isTransparent = true;
 // End
 
 // Elmt Declarations 
@@ -103,6 +104,8 @@ const songElmt = document.getElementById("Song");
 const icon = document.getElementById("icon");
 const sideBar = document.getElementById("sideBar");
 const sideBarBtn = document.getElementById("sideBarBtn");
+const ionIcons = document.getElementsByTagName("ion-icon"); 
+const awesomeIcons = document.getElementsByTagName("i");
 // End
 
 // Functions
@@ -131,19 +134,7 @@ function createSongs() {
 
 createSongs();
 
-
 function PlaySong() {
-    colorjs.prominent(`${MusicList[index].imgSource}`, { amount: 1 }).then(color => {
-        document.getElementById("seekBar").style.backgroundColor = `rgb(${color.toString()})`;
-        colorAccent = `rgb(${color.toString()}, 0.3)`;
-        if (isLooping) {
-            document.getElementById("Loop").style.backgroundColor = colorAccent;
-        }
-        if (isLooping) {
-            document.getElementById("Shuffle").style.backgroundColor = colorAccent;
-        }
-    });
-    Theme.innerHTML = DarkModeCode;
     songElmt.src = MusicList[index].source;
     songElmt.play();
     playElmt.style.display = "none";
@@ -258,15 +249,16 @@ function LoopSong() {
     isLooping = !isLooping;
 }
 let isDarkModeOn = false;
-
 const Theme = document.getElementById("Theme");
 Theme.addEventListener("click", (event) => {
   const darkModeBtn = document.getElementById("darkmodeBtn");
-const ionIcons = document.getElementsByTagName("ion-icon"); 
-const awesomeIcons = document.getElementsByTagName("i");
+  if(isTransparent)
+  {
     if (isDarkModeOn) {
+      Theme.style.color = "white";
       sideBar.style.backgroundColor = "rgb(255, 255, 255, 0.2)";
         darkModeBtn.classList.remove("theme-toggle--toggled");
+        MainContainer.style.backgroundColor = "rgb(0, 0, 0, 0.1)";
         MusicCardElmt.style.color = "white";
         rangeBarElmt.style.backgroundColor = "rgb(255, 255, 255, 0.3)";
         rangeBarElmt.style.boxShadow = "inset 0 0 1px black";
@@ -279,6 +271,7 @@ const awesomeIcons = document.getElementsByTagName("i");
     } else {
       sideBar.style.backgroundColor = "rgb(0,0,0, 0.4)";
         darkModeBtn.classList.add("theme-toggle--toggled");
+        MainContainer.style.backgroundColor = "rgb(255, 255, 255, 0.1)";
         MusicCardElmt.style.color = "black";
         rangeBarElmt.style.backgroundColor = "rgb(0, 0, 0, 0.3)";
         rangeBarElmt.style.boxShadow = "inset 0 0 5px white";
@@ -290,6 +283,10 @@ const awesomeIcons = document.getElementsByTagName("i");
         }
         Theme.style.color = "black";
     }
+  }
+  else {
+    
+  }
     isDarkModeOn = !isDarkModeOn;
 });
 
@@ -326,3 +323,66 @@ sideBarBtn.addEventListener("click", () => {
   }
   sideBarOn = !sideBarOn;
 });
+let isThemeOn = false;
+function evokeTheme() {
+  const themeBar = document.getElementById("themePopup");
+  const Themes = document.getElementsByClassName("Themes");
+  if(isThemeOn)
+  {
+    sideBar.style.display = "flex";
+  }
+  else {
+    sideBar.style.display = "none";
+    themeBar.style.display = "flex";
+    for(let i = 0; i < Themes.length; i++)
+    {
+      Themes[i].addEventListener("click", () => {
+        if(i == 1)
+        {
+          isTransparent = false;
+          MainContainer.style.backgroundColor = "#eee";
+          MainContainer.style.color = "black";
+          for (let i = 0; i < ionIcons.length; i++) {
+            ionIcons[i].style.color = "black";
+          }
+          for (let a = 0; a < awesomeIcons.length; a++) {
+            awesomeIcons[a].style.color = "black";
+          }
+          rangeElmt.style.backgroundColor = "black";
+        }
+        else {
+          isTransparent = true;
+          MainContainer.style.backgroundColor = "rgb(255, 255, 255, 0.1)";
+          MainContainer.style.color = "white";
+          for (let i = 0; i < ionIcons.length; i++) {
+            ionIcons[i].style.color = "white";
+          }
+          for (let a = 0; a < awesomeIcons.length; a++) {
+            awesomeIcons[a].style.color = "white";
+          }
+        }
+          themeBar.style.display = "none";
+          MainContainer.style.left = '';
+          sideBar.style.display = "flex";
+      });
+    }
+  }
+  isThemeOn = !isThemeOn;
+}
+// Color Js Implementation 
+
+    try {
+      colorjs.prominent(`${MusicList[index].imgSource}`, { amount: 1 }).then(color => {
+        document.getElementById("seekBar").style.backgroundColor = `rgb(${color.toString()})`;
+        colorAccent = `rgb(${color.toString()}, 0.3)`;
+        if (isLooping) {
+            document.getElementById("Loop").style.backgroundColor = colorAccent;
+        }
+        if (isLooping) {
+            document.getElementById("Shuffle").style.backgroundColor = colorAccent;
+        }
+    });
+    }
+    catch(err) { console.log(err);}
+    Theme.innerHTML = DarkModeCode;
+//End
