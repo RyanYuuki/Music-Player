@@ -1,9 +1,3 @@
-@media only screen and (max-width: 500px)
-{
-  .Main {
-    transform: scale(0.7);
-  }
-}
 
 * {
     margin: 0;

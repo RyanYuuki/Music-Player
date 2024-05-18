@@ -14,12 +14,10 @@ const MusicList = [
   { name: "Runaway", source: "./Musics/Runaway.mp3", artistName: "Aurora", imgSource: "./MusicCovers/Runaway.png", Duration: '04:09' }
 ];
 const TransparentThemes = [
-  { id: "Transparent" },
   { Name: "Light", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
   { Name: "Dark", Accent: "rgb(255, 255, 255, 0.1)", textColor: "black" },
 ];
 const MaterialThemes = [
-  { id: "Material" },
   { Name: "Light", Accent: "white", textColor: "black" },
   { Name: "Dark", Accent: "#202020", textColor: "white" },
 ];
@@ -75,6 +73,8 @@ const sideBar = document.getElementById("sidebar");
 const sideBarBtn = document.getElementById("sidebar-button");
 const ionIcons = document.getElementsByTagName("ion-icon");
 const awesomeIcons = document.getElementsByTagName("i");
+const themeBar = document.getElementById("theme-popup");
+const ThemesOptions = document.getElementsByClassName("Themes");
 // End
 
 // Functions
@@ -103,7 +103,7 @@ function createSongs() {
 
 createSongs();
 
-function PlaySong() {
+function seekColor() {
   try {
     colorjs.prominent(`${MusicList[index].imgSource}`, { amount: 1 }).then(color => {
       rangeElmt.style.backgroundColor = `rgb(${color.toString()})`;
@@ -117,12 +117,15 @@ function PlaySong() {
     });
   }
   catch (err) { console.log(err); }
+}
+
+function PlaySong() {
+  seekColor();
   songElmt.src = MusicList[index].source;
   songElmt.play();
   playElmt.style.display = "none";
   pauseElmt.style.display = "grid";
   document.body.style.backgroundImage = `url('${MusicList[index].imgSource}')`;
-  document.body.style.backdropFilter = "blur(50px)";
   MusicCardElmt.innerHTML = `
     <div style="background-image: url('${MusicList[index].imgSource}');" id="Image" class="Image"></div>
     <div class="Info">
@@ -299,41 +302,21 @@ sideBarBtn.addEventListener("click", () => {
   isSideBarOpen = !isSideBarOpen;
 });
 function evokeTheme() {
-  const themeBar = document.getElementById("theme-popup");
-  const ThemesOptions = document.getElementsByClassName("Themes");
   sideBar.classList.add("sidebar--close");
   sideBar.classList.remove("sidebar--open");
   themeBar.style.display = "flex";
-  MainContainer.style.transform = "translateX(0%)";
   icon.style.transform = "rotate(0deg)";
-  for (let i = 0; i < ThemesOptions.length; i++) {
-    ThemesOptions[i].addEventListener("click", () => {
-      if (i == 1) {
-        isTransparent = false;
-        MainContainer.style.backgroundColor = "#eee";
-        MainContainer.style.color = "black";
-        for (let i = 0; i < ionIcons.length; i++) {
-          ionIcons[i].style.color = "black";
-        }
-        for (let a = 0; a < awesomeIcons.length; a++) {
-          awesomeIcons[a].style.color = "black";
-        }
-        rangeElmt.style.backgroundColor = "black";
-      }
-      else {
-        isTransparent = true;
-        MainContainer.style.backgroundColor = "rgb(255, 255, 255, 0.1)";
-        MainContainer.style.color = "white";
-        for (let i = 0; i < ionIcons.length; i++) {
-          ionIcons[i].style.color = "white";
-        }
-        for (let a = 0; a < awesomeIcons.length; a++) {
-          awesomeIcons[a].style.color = "white";
-        }
-      }
-      themeBar.style.display = "none";
+  for(let i = 0; i < ThemesOptions.length; i++)
+  {
+  ThemesOptions[i].addEventListener("click", function() {
+    themeBar.style.display = "none";
+    MainContainer.style.transform = "translateX(0)";
+    MainContainer.style.display = "flex";
+    if(i == 0) { changeThemes(TransparentThemes, "Light");}
+    else { changeThemes(MaterialThemes, "Light"); }
     });
   }
+
 }
 
 Theme.innerHTML = DarkModeCode;
@@ -344,70 +327,40 @@ Theme.innerHTML = DarkModeCode;
 if (window.screen.width > 800) {
   MainContainer.style.scale = "0.9";
 }
+else if(window.screen.width < 600)
+{
+  MainContainer.style.scale = "0.7";
+}
 
 
 function changeThemes(Mode, theme) {
   const ThemingElements = [MainContainer, sideBar];
-  if (Mode[0].id == "Transparent") {
     if (theme == "Dark") {
-      let x = 2;
+      let x = 1;
       for (let i = 0; i < ThemingElements.length; i++) {
-        ThemingElements[i].style.backgroundColor = TransparentThemes[x].Accent;
-        ThemingElements[i].style.color = TransparentThemes[x].textColor;
+        ThemingElements[i].style.backgroundColor = Mode[x].Accent;
+        ThemingElements[i].style.color = Mode[x].textColor;
       }
-      durationElmt.style.color = TransparentThemes[x].textColor;
+      durationElmt.style.color = Mode[x].textColor;
       for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = TransparentThemes[x].textColor
+        ionIcons[i].style.color = Mode[x].textColor
       }
       for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = TransparentThemes[x].textColor;
+        awesomeIcons[a].style.color = Mode[x].textColor;
       }
     }
     else {
-      let x = 1;
+      let x = 0;
       for (let i = 0; i < ThemingElements.length; i++) {
-        ThemingElements[i].style.backgroundColor = TransparentThemes[x].Accent;
-        ThemingElements[i].style.color = TransparentThemes[x].textColor;
+        ThemingElements[i].style.backgroundColor = Mode[x].Accent;
+        ThemingElements[i].style.color = Mode[x].textColor;
       }
-      durationElmt.style.color = TransparentThemes[x].textColor;
+      durationElmt.style.color = Mode[x].textColor;
       for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = TransparentThemes[x].textColor
+        ionIcons[i].style.color = Mode[x].textColor
       }
       for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = TransparentThemes[x].textColor;
+        awesomeIcons[a].style.color = Mode[x].textColor;
       }
     }
-  }
-  else if (Mode[0].id == "Material") {
-    if (theme == "Dark") {
-      let x = 2;
-      for (let i = 0; i < ThemingElements.length; i++) {
-        ThemingElements[i].style.backgroundColor = MaterialThemes[x].Accent;
-        ThemingElements[i].style.color = MaterialThemes[x].textColor;
-      }
-      durationElmt.style.color = MaterialThemes[x].textColor;
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = MaterialThemes[x].textColor
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = MaterialThemes[x].textColor;
-      }
-    }
-    else {
-      let x = 1;
-      for (let i = 0; i < ThemingElements.length; i++) {
-        ThemingElements[i].style.backgroundColor = MaterialThemes[x].Accent;
-        ThemingElements[i].style.color = MaterialThemes[x].textColor;
-      }
-      durationElmt.style.color = MaterialThemes[x].textColor;
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = MaterialThemes[x].textColor
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        console.log("Hello");
-        awesomeIcons[a].style.color = MaterialThemes[x].textColor;
-      }
-    }
-  }
 }
-changeThemes(MaterialThemes, "Light");
