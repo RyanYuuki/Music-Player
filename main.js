@@ -157,7 +157,7 @@ function PlaySong() {
     let formattedDuration = `${(durationMinutes).toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
     rangeElmt.style.width = `${percentage}%`;
     rangeBarElmt.addEventListener('click', (e) => {
-      let derivedDuration = (e.layerX * 100) / 420;
+      let derivedDuration = (e.offsetX * 100) / rangeBarElmt.offsetWidth;
       rangeElmt.style.width = `${derivedDuration}%`;
       songElmt.currentTime = (derivedDuration / 100) * songElmt.duration;
     });
