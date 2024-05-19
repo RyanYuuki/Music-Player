@@ -17,13 +17,13 @@ const MusicList = [
 ];
 const TransparentThemes = [
   { Name: "Light", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
-  { Name: "Dark", Accent: "rgb(255, 255, 255, 0.1)", textColor: "black" },
-  { themeName : 'Transparent'}
+  { Name: "Dark", Accent: "rgb(255, 255, 255, 0.5)", textColor: "black" },
+  { themeName: 'Transparent' }
 ];
 const MaterialThemes = [
-  { Name: "Light", Accent: "white", textColor: "black" },
-  { Name: "Dark", Accent: "#202020", textColor: "white" },
-  { themeName : 'Material'}
+  { Name: "Light", Accent: "white", textColor: "#171717" },
+  { Name: "Dark", Accent: "#202020", textColor: "#eee" },
+  { themeName: 'Material' },
 ];
 const DarkModeCode = `
 <div id="switch-button" class="theme-toggle" title="Toggle theme">
@@ -58,7 +58,7 @@ const DarkModeCode = `
 
 // Elmt Declarations 
 const MusicListELmt = document.getElementById('MusicList');
-const Songs = document.getElementsByClassName("song");
+const Songs = document.getElementsByClassName("ListSongs");
 const songImages = document.getElementsByClassName("songImage");
 const playElmt = document.getElementById("Play");
 const pauseElmt = document.getElementById("Pause");
@@ -84,7 +84,7 @@ const ThemesOptions = document.getElementsByClassName("Themes");
 function createSongs() {
   for (let i = 1; i < MusicList.length; i++) {
     MusicListELmt.innerHTML += `
-        <div class="song">
+        <div class="ListSongs Songs--Light">
                 <div style="background-image: url('${MusicList[i].imgSource}');" class="songImage"></div>
                 <div class="songInfo">
                     <div class="Title">${MusicList[i].name}</div>
@@ -98,6 +98,7 @@ function createSongs() {
   }
   for (let i = 0; i < songImages.length; i++) {
     Songs[i].addEventListener("click", () => {
+      applySongEffect();
       index = i;
       PlaySong();
     });
@@ -105,6 +106,15 @@ function createSongs() {
 }
 
 createSongs();
+
+function applySongEffect() {
+  for (let i = 0; i < Songs.length; i++) {
+    Songs[i].classList.remove("activeSong");
+    Songs[i].children[0].classList.remove("activeSongImage");
+  }
+  Songs[index].classList.add("activeSong");
+  Songs[index].children[0].classList.add("activeSongImage");
+}
 
 function seekColor() {
   try {
@@ -123,6 +133,7 @@ function seekColor() {
 }
 
 function PlaySong() {
+  applySongEffect();
   seekColor();
   songElmt.src = MusicList[index].source;
   songElmt.play();
@@ -160,6 +171,7 @@ function PlaySong() {
       songElmt.play();
     }
     else {
+      applySongEffect();
       NextSong();
     }
   });
@@ -243,11 +255,11 @@ Theme.addEventListener("click", () => {
   const switchButton = document.getElementById("switch-button");
   if (isDarkButtonPressed) {
     switchButton.classList.remove("theme-toggle--toggled");
-    currentTheme == "Transparent" ? changeThemes(TransparentThemes, "Light") : changeThemes(MaterialThemes,  "Light");
+    currentTheme == "Transparent" ? changeThemes(TransparentThemes, "Light") : changeThemes(MaterialThemes, "Light");
   }
   else {
     switchButton.classList.add("theme-toggle--toggled");
-    currentTheme == "Transparent" ? changeThemes(TransparentThemes, "Dark") : changeThemes(MaterialThemes,  "Dark");
+    currentTheme == "Transparent" ? changeThemes(TransparentThemes, "Dark") : changeThemes(MaterialThemes, "Dark");
   }
   isDarkButtonPressed = !isDarkButtonPressed;
 });
@@ -269,7 +281,7 @@ sideBarBtn.addEventListener("click", () => {
     if (window.screen.width < 500) {
       sideBar.style.scale = "0.8";
       sideBar.style.width = "105%";
-      MainContainer.style.transform =  "translateX(200%)";
+      MainContainer.style.transform = "translateX(200%)";
     }
   }
   isSideBarOpen = !isSideBarOpen;
@@ -278,14 +290,13 @@ function evokeTheme() {
   sideBar.classList.replace("sidebar--open", "sidebar--close");
   themeBar.style.display = "flex";
   icon.style.transform = "rotate(0deg)";
-  for(let i = 0; i < ThemesOptions.length; i++)
-  {
-  ThemesOptions[i].addEventListener("click", function() {
-    themeBar.style.display = "none";
-    MainContainer.style.transform = "translateX(0)";
-    MainContainer.style.display = "flex";
-    if(i == 0) { changeThemes(TransparentThemes, "Light");}
-    else { changeThemes(MaterialThemes, "Light"); }
+  for (let i = 0; i < ThemesOptions.length; i++) {
+    ThemesOptions[i].addEventListener("click", function () {
+      themeBar.style.display = "none";
+      MainContainer.style.transform = "translateX(0)";
+      MainContainer.style.display = "flex";
+      if (i == 0) { changeThemes(TransparentThemes, "Light"); }
+      else { changeThemes(MaterialThemes, "Light"); }
     });
   }
 
@@ -299,44 +310,50 @@ Theme.innerHTML = DarkModeCode;
 if (window.screen.width > 800) {
   MainContainer.style.scale = "0.9";
 }
-else if(window.screen.width < 600)
-{
+else if (window.screen.width < 600) {
   MainContainer.style.scale = "0.7";
 }
 
 
 function changeThemes(Mode, theme) {
+  const themeButton = document.getElementsByClassName("theme-button")[0];
   const switchButton = document.getElementById("switch-button");
-  const ThemingElements = [MainContainer, sideBar];
-    if (theme == "Dark") {
-     switchButton.classList.add("theme-toggle--toggled"); 
-      let x = 1;
-      for (let i = 0; i < ThemingElements.length; i++) {
-        ThemingElements[i].style.backgroundColor = Mode[x].Accent;
-        ThemingElements[i].style.color = Mode[x].textColor;
-      }
-      durationElmt.style.color = Mode[x].textColor;
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = Mode[x].textColor
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = Mode[x].textColor;
-      }
+  const ThemingElements = [MainContainer, sideBar, sideBarBtn, themeButton];
+  if (theme == "Dark") {
+    switchButton.classList.add("theme-toggle--toggled");
+    let x = 1;
+    for (let i = 0; i < ThemingElements.length; i++) {
+      ThemingElements[i].style.backgroundColor = Mode[x].Accent;
+      ThemingElements[i].style.color = Mode[x].textColor;
     }
-    else {
-      let x = 0;
-      switchButton.classList.remove("theme-toggle--toggled");
-      for (let i = 0; i < ThemingElements.length; i++) {
-        ThemingElements[i].style.backgroundColor = Mode[x].Accent;
-        ThemingElements[i].style.color = Mode[x].textColor;
-      }
-      durationElmt.style.color = Mode[x].textColor;
-      for (let i = 0; i < ionIcons.length; i++) {
-        ionIcons[i].style.color = Mode[x].textColor
-      }
-      for (let a = 0; a < awesomeIcons.length; a++) {
-        awesomeIcons[a].style.color = Mode[x].textColor;
-      }
+    durationElmt.style.color = Mode[x].textColor;
+    for (let i = 0; i < ionIcons.length; i++) {
+      ionIcons[i].style.color = Mode[x].textColor
     }
-    Mode[2].themeName == "Transparent" ? currentTheme = "Transparent" : currentTheme = "Material";
+    for (let a = 0; a < awesomeIcons.length; a++) {
+      awesomeIcons[a].style.color = Mode[x].textColor;
+    }
+    if (Mode[2].themeName == "Transparent") { for (let i = 0; i < Songs.length; i++) { Songs[i].style.backgroundColor = Mode[x].Accent; Songs[i].style.color = Mode[x].textColor; } }
+    else { for (let i = 0; i < Songs.length; i++) { Songs[i].style.backgroundColor = ''; Songs[i].style.color = ''; Songs[i].classList.replace("Songs--Light", "Songs--Dark"); } }
+  }
+  else {
+    let x = 0;
+    switchButton.classList.remove("theme-toggle--toggled");
+    for (let i = 0; i < ThemingElements.length; i++) {
+      ThemingElements[i].style.backgroundColor = Mode[x].Accent;
+      ThemingElements[i].style.color = Mode[x].textColor;
+    }
+    durationElmt.style.color = Mode[x].textColor;
+    for (let i = 0; i < ionIcons.length; i++) {
+      ionIcons[i].style.color = Mode[x].textColor
+    }
+    for (let a = 0; a < awesomeIcons.length; a++) {
+      awesomeIcons[a].style.color = Mode[x].textColor;
+    }
+    if (Mode[2].themeName == "Transparent") { for (let i = 0; i < Songs.length; i++) { Songs[i].style.backgroundColor = Mode[x].Accent; Songs[i].style.color = Mode[x].textColor } }
+    else { for (let i = 0; i < Songs.length; i++) { Songs[i].style.backgroundColor = ''; Songs[i].style.color = ''; Songs[i].classList.replace("Songs--Dark", "Songs--Light"); } }
+  }
+  Mode[2].themeName == "Transparent" ? currentTheme = "Transparent" : currentTheme = "Material";
 }
+
+changeThemes(TransparentThemes, "Light");
