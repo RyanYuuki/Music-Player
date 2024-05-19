@@ -320,6 +320,8 @@ function changeThemes(Mode, theme) {
   const switchButton = document.getElementById("switch-button");
   const ThemingElements = [MainContainer, sideBar, sideBarBtn, themeButton];
   if (theme == "Dark") {
+    Theme.style.backgroundColor = Mode[1].Accent;
+    Theme.style.color = Mode[1].textColor;
     switchButton.classList.add("theme-toggle--toggled");
     let x = 1;
     for (let i = 0; i < ThemingElements.length; i++) {
@@ -337,6 +339,8 @@ function changeThemes(Mode, theme) {
     else { for (let i = 0; i < Songs.length; i++) { Songs[i].style.backgroundColor = ''; Songs[i].style.color = ''; Songs[i].classList.replace("Songs--Light", "Songs--Dark"); } }
   }
   else {
+    Theme.style.backgroundColor = Mode[0].Accent;
+    Theme.style.color = Mode[0].textColor;
     let x = 0;
     switchButton.classList.remove("theme-toggle--toggled");
     for (let i = 0; i < ThemingElements.length; i++) {
