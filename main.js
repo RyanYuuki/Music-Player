@@ -12,7 +12,8 @@ const MusicList = [
   { name: "Lost On You", source: "./Musics/Lost On You.mp3", artistName: "LP", imgSource: "./MusicCovers/Lost On You.jpg", Duration: '04:30' },
   { name: "Let The World Burn", source: "./Musics/Let The World Burn.mp3", artistName: "Chris Grey", imgSource: "./MusicCovers/LetTheWorldBurn.jpg", Duration: '02:43' },
   { name: "Outrunning Karma", source: "./Musics/Outrunning Karma.mp3", artistName: "Alec Benjamin", imgSource: './MusicCovers/Outrunning Karma.jpg', Duration: '03:08' },
-  { name: "Runaway", source: "./Musics/Runaway.mp3", artistName: "Aurora", imgSource: "./MusicCovers/Runaway.png", Duration: '04:09' }
+  { name: "Runaway", source: "./Musics/Runaway.mp3", artistName: "Aurora", imgSource: "./MusicCovers/Runaway.png", Duration: '04:09' },
+  { name: "OverNight", source: "./Musics/Overnight.mp3", artistName: "Queen Herby", imgSource: "./MusicCovers/Overnight.png", Duration: '02:41' }
 ];
 const TransparentThemes = [
   { Name: "Light", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
@@ -145,7 +146,6 @@ function PlaySong() {
     let formattedDuration = `${(durationMinutes).toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
     rangeElmt.style.width = `${percentage}%`;
     rangeBarElmt.addEventListener('click', (e) => {
-      console.log(e);
       let derivedDuration = (e.layerX * 100) / 420;
       rangeElmt.style.width = `${derivedDuration}%`;
       songElmt.currentTime = (derivedDuration / 100) * songElmt.duration;
@@ -240,7 +240,7 @@ let isDarkButtonPressed = false;
 let isDarkModeOn = false;
 const Theme = document.getElementById("mode-switcher");
 Theme.addEventListener("click", () => {
-  const switchButton = document.getElementById("switch-button"); 
+  const switchButton = document.getElementById("switch-button");
   if (isDarkButtonPressed) {
     switchButton.classList.remove("theme-toggle--toggled");
     currentTheme == "Transparent" ? changeThemes(TransparentThemes, "Light") : changeThemes(MaterialThemes,  "Light");
@@ -306,8 +306,10 @@ else if(window.screen.width < 600)
 
 
 function changeThemes(Mode, theme) {
+  const switchButton = document.getElementById("switch-button");
   const ThemingElements = [MainContainer, sideBar];
     if (theme == "Dark") {
+     switchButton.classList.add("theme-toggle--toggled"); 
       let x = 1;
       for (let i = 0; i < ThemingElements.length; i++) {
         ThemingElements[i].style.backgroundColor = Mode[x].Accent;
@@ -323,6 +325,7 @@ function changeThemes(Mode, theme) {
     }
     else {
       let x = 0;
+      switchButton.classList.remove("theme-toggle--toggled");
       for (let i = 0; i < ThemingElements.length; i++) {
         ThemingElements[i].style.backgroundColor = Mode[x].Accent;
         ThemingElements[i].style.color = Mode[x].textColor;
