@@ -16,8 +16,8 @@ const MusicList = [
   { name: "OverNight", source: "./Musics/Overnight.mp3", artistName: "Queen Herby", imgSource: "./MusicCovers/Overnight.png", Duration: '02:41' }
 ];
 const TransparentThemes = [
-  { Name: "Light", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
-  { Name: "Dark", Accent: "rgb(255, 255, 255, 0.5)", textColor: "black" },
+  { Name: "Light", Accent: "rgb(255, 255, 255, 0.1)", textColor: "black" },
+  { Name: "Dark", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
   { themeName: 'Transparent' }
 ];
 const MaterialThemes = [
@@ -312,6 +312,10 @@ if (window.screen.width > 800) {
 }
 else if (window.screen.width < 600) {
   MainContainer.style.scale = "0.7";
+  for( let i = 0; i < Songs.length; i++)
+  {
+    Songs[i].children[0].style.width = "15%";
+  }
 }
 
 
