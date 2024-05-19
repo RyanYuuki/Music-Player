@@ -312,10 +312,6 @@ if (window.screen.width > 800) {
 }
 else if (window.screen.width < 600) {
   MainContainer.style.scale = "0.7";
-  for( let i = 0; i < Songs.length; i++)
-  {
-    Songs[i].children[0].style.width = "15%";
-  }
 }
 
 
