@@ -12,7 +12,7 @@ This is a simple and elegant music player built using HTML, CSS, and JavaScript.
 
 ## Demo
 
-You can check out the live demo [here]([(https://ryanyuuki.github.io/Music_Player/index.html)).
+You can check out the live demo [here](https://ryanyuuki.github.io/Music_Player/index.html).
 
 ## Usage
 
