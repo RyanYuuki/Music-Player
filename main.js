@@ -16,8 +16,8 @@ const MusicList = [
   { name: "OverNight", source: "./Musics/Overnight.mp3", artistName: "Queen Herby", imgSource: "./MusicCovers/Overnight.png", Duration: '02:41' }
 ];
 const TransparentThemes = [
-  { Name: "Light", Accent: "rgb(255, 255, 255, 0.1)", textColor: "black" },
-  { Name: "Dark", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
+  { Name: "Light", Accent: "rgb(0, 0, 0, 0.1)", textColor: "white" },
+  { Name: "Dark", Accent: "rgb(255, 255, 255, 0.5)", textColor: "black" },
   { themeName: 'Transparent' }
 ];
 const MaterialThemes = [
@@ -157,7 +157,7 @@ function PlaySong() {
     let formattedDuration = `${(durationMinutes).toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
     rangeElmt.style.width = `${percentage}%`;
     rangeBarElmt.addEventListener('click', (e) => {
-      let derivedDuration = (e.offsetX * 100) / rangeBarElmt.offsetWidth;
+      let derivedDuration = (e.layerX * 100) / 420;
       rangeElmt.style.width = `${derivedDuration}%`;
       songElmt.currentTime = (derivedDuration / 100) * songElmt.duration;
     });
@@ -310,9 +310,10 @@ Theme.innerHTML = DarkModeCode;
 if (window.screen.width > 800) {
   MainContainer.style.scale = "0.9";
 }
-else if (window.screen.width < 600) {
+else if (window.screen.width < 800) {
   MainContainer.style.scale = "0.7";
 }
+
 
 
 function changeThemes(Mode, theme) {
@@ -320,8 +321,6 @@ function changeThemes(Mode, theme) {
   const switchButton = document.getElementById("switch-button");
   const ThemingElements = [MainContainer, sideBar, sideBarBtn, themeButton];
   if (theme == "Dark") {
-    Theme.style.backgroundColor = Mode[1].Accent;
-    Theme.style.color = Mode[1].textColor;
     switchButton.classList.add("theme-toggle--toggled");
     let x = 1;
     for (let i = 0; i < ThemingElements.length; i++) {
@@ -339,8 +338,6 @@ function changeThemes(Mode, theme) {
     else { for (let i = 0; i < Songs.length; i++) { Songs[i].style.backgroundColor = ''; Songs[i].style.color = ''; Songs[i].classList.replace("Songs--Light", "Songs--Dark"); } }
   }
   else {
-    Theme.style.backgroundColor = Mode[0].Accent;
-    Theme.style.color = Mode[0].textColor;
     let x = 0;
     switchButton.classList.remove("theme-toggle--toggled");
     for (let i = 0; i < ThemingElements.length; i++) {
